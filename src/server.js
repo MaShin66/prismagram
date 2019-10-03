@@ -8,6 +8,7 @@ import { sendSecretMail } from './utils';
 import passport from "passport";
 import "./passport";
 import { authenticateJwt } from "./passport";
+import { isAuthenticated } from "./middlewares";
 import { prisma } from "../generated/prisma-client";
 
 // sendSecretMail("ubiquitous6666@gmail.com", "123")
@@ -16,7 +17,7 @@ const PORT = process.env.PORT || 4000;
 
 const server = new GraphQLServer({ 
     schema, 
-    context: ({ request }) => ({ request })
+    context: ({ request }) => ({ request, isAuthenticated }) // 이렇게 추가하면 더이상 import 하지 않아도 된다
 });
 
 server.express.use(logger("dev"));
